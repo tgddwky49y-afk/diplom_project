@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Планировщик учебных проектов и задач">
+  <title>Учебный планировщик</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <div class="container header-content">
+      <span class="brand">Учебный планировщик</span>
+      <span class="badge">Первая версия</span>
+    </div>
+  </header>
+  <main class="container">
+    <h1>Мои учебные проекты</h1>
+    <p class="intro">Проекты, задачи и сроки в одном месте.</p>
+    <section class="card" aria-labelledby="projects-title">
+      <h2 id="projects-title">Проекты</h2>
+      <div class="empty-state">
+        <h3>Здесь появятся ваши проекты</h3>
+        <p>Создание проектов будет доступно в следующей версии.</p>
+      </div>
+    </section>
+    <section class="card" aria-labelledby="connection-title">
+      <h2 id="connection-title">Связь с сервером</h2>
+      <p id="server-status" role="status" aria-live="polite">Проверяем подключение…</p>
+      <button id="check-button" type="button">Проверить подключение</button>
+    </section>
+  </main>
+  <footer class="container">Учебный проект · БВ411</footer>
+</body>
+</html>
