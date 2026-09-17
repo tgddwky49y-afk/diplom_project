@@ -1,9 +1,10 @@
-const { getHealth, getProjectInfo } = require('./controllers');
+const controllers = require('./controllers');
 
-// Маршрут связывает адрес запроса с контроллером.
 const routes = {
-  '/api/health': getHealth,
-  '/api/info': getProjectInfo
+  health: '/api/health',
+  info: '/api/info',
+  tasks: '/api/tasks'
 };
 
-module.exports = routes;
+module.exports = { routes, controllers };
+

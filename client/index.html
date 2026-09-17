@@ -12,25 +12,60 @@
   <header class="header">
     <div class="container header-content">
       <span class="brand">Учебный планировщик</span>
-      <span class="badge">Первая версия</span>
+      <span class="badge">Неделя 2</span>
     </div>
   </header>
+
   <main class="container">
-    <h1>Мои учебные проекты</h1>
-    <p class="intro">Проекты, задачи и сроки в одном месте.</p>
-    <section class="card" aria-labelledby="projects-title">
-      <h2 id="projects-title">Проекты</h2>
-      <div class="empty-state">
-        <h3>Здесь появятся ваши проекты</h3>
-        <p>Создание проектов будет доступно в следующей версии.</p>
-      </div>
+    <h1>Мои задачи</h1>
+    <p class="intro">Добавляйте учебные задачи и отмечайте выполненные.</p>
+
+    <section class="card" aria-labelledby="new-task-title">
+      <h2 id="new-task-title">Новая задача</h2>
+      <form id="task-form">
+        <label>
+          Название
+          <input id="title" name="title" maxlength="150" required>
+        </label>
+        <label>
+          Описание
+          <textarea id="description" name="description" rows="3"></textarea>
+        </label>
+        <div class="form-row">
+          <label>
+            Срок
+            <input id="due-date" name="due_date" type="date">
+          </label>
+          <label>
+            Приоритет
+            <select id="priority" name="priority">
+              <option value="low">Низкий</option>
+              <option value="medium" selected>Средний</option>
+              <option value="high">Высокий</option>
+            </select>
+          </label>
+        </div>
+        <button type="submit">Добавить задачу</button>
+        <p id="form-message" class="message" role="status"></p>
+      </form>
     </section>
-    <section class="card" aria-labelledby="connection-title">
-      <h2 id="connection-title">Связь с сервером</h2>
-      <p id="server-status" role="status" aria-live="polite">Проверяем подключение…</p>
-      <button id="check-button" type="button">Проверить подключение</button>
+
+    <section class="card" aria-labelledby="tasks-title">
+      <div class="section-title">
+        <h2 id="tasks-title">Список задач</h2>
+        <button id="refresh-button" class="secondary" type="button">Обновить</button>
+      </div>
+      <p id="tasks-message" role="status">Загружаем задачи…</p>
+      <div id="task-list" class="task-list"></div>
+    </section>
+
+    <section class="card compact" aria-labelledby="connection-title">
+      <h2 id="connection-title">Подключение</h2>
+      <p id="server-status" role="status">Проверяем сервер и базу данных…</p>
     </section>
   </main>
+
   <footer class="container">Учебный проект · БВ411</footer>
 </body>
 </html>
+

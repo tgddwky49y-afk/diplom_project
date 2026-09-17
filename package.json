@@ -1,11 +1,18 @@
 {
   "name": "study-planner",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "Планировщик учебных проектов и задач — первая неделя",
+  "description": "Планировщик учебных проектов и задач",
   "scripts": {
     "start": "node server/index.js",
-    "dev": "node --watch server/index.js"
+    "dev": "node --watch server/index.js",
+    "db:migrate": "node server/migrate.js"
   },
-  "engines": { "node": ">=22" }
+  "dependencies": {
+    "pg": "^8.13.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
 }
+
