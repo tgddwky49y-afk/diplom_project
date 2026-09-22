@@ -1,37 +1,40 @@
-# База данных
-
-На второй неделе подготовлены три основные сущности: пользователь, проект и задача.
+# Схема базы данных
 
 ```mermaid
 erDiagram
-  USERS ||--o{ PROJECTS : creates
-  PROJECTS ||--o{ TASKS : contains
-
-  USERS {
-    bigint id PK
-    varchar name
-    varchar email
-    text password_hash
-  }
-
-  PROJECTS {
-    bigint id PK
-    bigint owner_id FK
-    varchar title
-    text description
-  }
-
-  TASKS {
-    bigint id PK
-    bigint project_id FK
-    varchar title
-    text description
-    date due_date
-    varchar priority
-    varchar status
-    integer progress
-  }
+    USERS o|--o{ PROJECTS : owns
+    PROJECTS o|--o{ TASKS : contains
+    USERS {
+        int Id PK
+        string Name
+        string Email UK
+    }
+    PROJECTS {
+        int Id PK
+        int OwnerId FK
+        string Title
+        string Description
+    }
+    TASKS {
+        int Id PK
+        int ProjectId FK
+        string Title
+        string Description
+        date DueDate
+        string Priority
+        string Status
+        int Progress
+        datetime CreatedAt
+        datetime UpdatedAt
+    }
 ```
 
-На этом этапе CRUD реализован для задач. Поля `project_id` и `owner_id` пригодятся на следующих этапах, когда появятся проекты и авторизация.
+OwnerId и ProjectId пока необязательны: CRUD задач работает без регистрации и проекта.
+Удаление связанного пользователя или проекта запрещено, пока существуют ссылающиеся записи.
+Приоритет: low, medium, high. Статус: todo, in_progress, completed.
+Прогресс — целое число 0–100. API принимает 100 только для completed, и требует 100 при completed.
+Title ограничен 150 символами, Description у задачи — 2000.
+DueDate хранится как SQL date без часового пояса, CreatedAt и UpdatedAt — время UTC.
+Идентификаторы генерирует SQL Server (IDENTITY). Email уникален.
+Структура создаётся миграцией EF Core, а не при каждом запуске сервера.
 

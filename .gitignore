@@ -1,8 +1,9 @@
-node_modules/
+**/node_modules/
+**/dist/
+**/bin/
+**/obj/
+.vs/
 .env
-.env.*
-!.env.example
-*.log
-.DS_Store
-.sites-runtime/
+**/appsettings.Local.json
+*.user
 
