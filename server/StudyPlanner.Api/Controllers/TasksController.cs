@@ -8,48 +8,72 @@ namespace StudyPlanner.Api.Controllers;
 
 [ApiController]
 [Route("api/tasks")]
-public class TasksController(PlannerDbContext db) : ControllerBase
+public class TasksController : ControllerBase
 {
+    private readonly PlannerDbContext db;
+
+    public TasksController(PlannerDbContext context)
+    {
+        db = context;
+    }
+
     [HttpGet]
-    public async Task<ActionResult<List<StudyTask>>> GetAll(CancellationToken token) =>
-        await db.Tasks.AsNoTracking().OrderBy(x => x.Status == "completed")
-            .ThenBy(x => x.DueDate == null).ThenBy(x => x.DueDate)
-            .ThenByDescending(x => x.Id).ToListAsync(token);
+    public async Task<ActionResult<List<StudyTask>>> GetAll()
+    {
+        var tasks = await db.Tasks
+            .AsNoTracking()
+            .OrderBy(x => x.Status == "completed")
+            .ThenBy(x => x.DueDate == null)
+            .ThenBy(x => x.DueDate)
+            .ThenByDescending(x => x.Id)
+            .ToListAsync();
+        return Ok(tasks);
+    }
 
     [HttpGet("{id:int:min(1)}")]
-    public async Task<ActionResult<StudyTask>> Get(int id, CancellationToken token)
+    public async Task<ActionResult<StudyTask>> Get(int id)
     {
-        var task = await db.Tasks.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, token);
-        return task is null ? NotFound() : Ok(task);
+        var task = await db.Tasks.FindAsync(id);
+        if (task == null)
+        {
+            return NotFound();
+        }
+        return Ok(task);
     }
 
     [HttpPost]
-    public async Task<ActionResult<StudyTask>> Create(TaskInput input, CancellationToken token)
+    public async Task<ActionResult<StudyTask>> Create(TaskInput input)
     {
         var task = new StudyTask();
         Apply(task, input);
         db.Tasks.Add(task);
-        await db.SaveChangesAsync(token);
+        await db.SaveChangesAsync();
         return CreatedAtAction(nameof(Get), new { id = task.Id }, task);
     }
 
     [HttpPut("{id:int:min(1)}")]
-    public async Task<ActionResult<StudyTask>> Update(int id, TaskInput input, CancellationToken token)
+    public async Task<ActionResult<StudyTask>> Update(int id, TaskInput input)
     {
-        var task = await db.Tasks.FindAsync([id], token);
-        if (task is null) return NotFound();
+        var task = await db.Tasks.FindAsync(id);
+        if (task == null)
+        {
+            return NotFound();
+        }
         Apply(task, input);
-        await db.SaveChangesAsync(token);
+        await db.SaveChangesAsync();
         return Ok(task);
     }
 
     [HttpDelete("{id:int:min(1)}")]
-    public async Task<IActionResult> Delete(int id, CancellationToken token)
+    public async Task<IActionResult> Delete(int id)
     {
-        var task = await db.Tasks.FindAsync([id], token);
-        if (task is null) return NotFound();
+        var task = await db.Tasks.FindAsync(id);
+        if (task == null)
+        {
+            return NotFound();
+        }
         db.Tasks.Remove(task);
-        await db.SaveChangesAsync(token);
+        await db.SaveChangesAsync();
         return NoContent();
     }
 
@@ -64,4 +88,3 @@ public class TasksController(PlannerDbContext db) : ControllerBase
         task.UpdatedAt = DateTime.UtcNow;
     }
 }
-

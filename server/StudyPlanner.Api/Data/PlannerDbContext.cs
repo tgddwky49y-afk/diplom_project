@@ -3,8 +3,12 @@ using StudyPlanner.Api.Models;
 
 namespace StudyPlanner.Api.Data;
 
-public class PlannerDbContext(DbContextOptions<PlannerDbContext> options) : DbContext(options)
+public class PlannerDbContext : DbContext
 {
+    public PlannerDbContext(DbContextOptions<PlannerDbContext> options) : base(options)
+    {
+    }
+
     public DbSet<StudyTask> Tasks => Set<StudyTask>();
     public DbSet<StudyProject> Projects => Set<StudyProject>();
     public DbSet<PlannerUser> Users => Set<PlannerUser>();
@@ -32,4 +36,3 @@ public class PlannerDbContext(DbContextOptions<PlannerDbContext> options) : DbCo
         });
     }
 }
-

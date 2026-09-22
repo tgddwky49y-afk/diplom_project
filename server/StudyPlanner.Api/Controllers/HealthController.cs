@@ -5,8 +5,15 @@ namespace StudyPlanner.Api.Controllers;
 
 [ApiController]
 [Route("api/health")]
-public class HealthController(PlannerDbContext db) : ControllerBase
+public class HealthController : ControllerBase
 {
+    private readonly PlannerDbContext db;
+
+    public HealthController(PlannerDbContext context)
+    {
+        db = context;
+    }
+
     [HttpGet]
     public async Task<IActionResult> Get(CancellationToken token)
     {
@@ -18,4 +25,3 @@ public class HealthController(PlannerDbContext db) : ControllerBase
         });
     }
 }
-
